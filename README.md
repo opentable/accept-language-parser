@@ -1,9 +1,17 @@
 accept-language-parser
 ======================
 
+[![Build Status](https://travis-ci.org/andyroyle/accept-language-parser.png?branch=master)](https://travis-ci.org/andyroyle/accept-language-parser) [![NPM version](https://badge.fury.io/js/accept-language-parser.png)](http://badge.fury.io/js/accept-language-parser) ![Dependencies](https://david-dm.org/andyroyle/accept-language-parser.png)
+
 Parses the accept-language header from an HTTP request and produces an array of language objects sorted by quality.
 
 dependencies: none
+
+installation:
+
+```
+npm install accept-language-parser
+```
 
 usage:
 
