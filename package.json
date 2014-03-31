@@ -1,0 +1,24 @@
+{
+  "name": "accept-language-parser",
+  "version": "1.0.0",
+  "description": "Parse the accept-language header from a HTTP request",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/andyroyle/accept-language-parser.git"
+  },
+  "keywords": [
+    "accept-language",
+    "i18n",
+    "parser"
+  ],
+  "author": "Andy Royle <ajroyle@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andyroyle/accept-language-parser/issues"
+  },
+  "homepage": "https://github.com/andyroyle/accept-language-parser"
+}
