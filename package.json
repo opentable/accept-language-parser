@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/andyroyle/accept-language-parser/issues"
   },
-  "homepage": "https://github.com/andyroyle/accept-language-parser"
+  "homepage": "https://github.com/andyroyle/accept-language-parser",
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "grunt-cli": "^0.1.13",
+    "grunt-mocha-test": "^0.10.0",
+    "should": "^3.2.0",
+    "grunt-contrib-jshint": "^0.9.2"
+  }
 }
