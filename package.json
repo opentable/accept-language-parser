@@ -1,6 +1,6 @@
 {
   "name": "accept-language-parser",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Parse the accept-language header from a HTTP request",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/andyroyle/accept-language-parser.git"
+    "url": "git://github.com/opentable/accept-language-parser.git"
   },
   "keywords": [
     "accept-language",
@@ -18,9 +18,9 @@
   "author": "Andy Royle <ajroyle@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/andyroyle/accept-language-parser/issues"
+    "url": "https://github.com/opentable/accept-language-parser/issues"
   },
-  "homepage": "https://github.com/andyroyle/accept-language-parser",
+  "homepage": "https://github.com/opentable/accept-language-parser",
   "devDependencies": {
     "grunt": "^0.4.4",
     "grunt-cli": "^0.1.13",
