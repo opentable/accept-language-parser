@@ -21,3 +21,31 @@ module.exports.parse = function(al){
             return b.quality - a.quality;
         });
 };
+
+module.exports.pick = function(supportedLanguages, acceptLanguage){
+    if (!supportedLanguages || !supportedLanguages.length || !acceptLanguage) {
+        return null;
+    }
+
+    var accept = this.parse(acceptLanguage);
+
+    var supported = supportedLanguages.map(function(support){
+        var bits = support.split('-');
+
+        return {
+            code: bits[0],
+            region: bits[1]
+        };
+    });
+
+    for (var i = 0; i < accept.length; i++) {
+        var lang = accept[i];
+        for (var j = 0; j < supported.length; j++) {
+            if (lang.code === supported[j].code && lang.region === supported[j].region) {
+                return supportedLanguages[j];
+            }
+        }
+    }
+
+    return null;
+};

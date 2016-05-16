@@ -1,4 +1,5 @@
 var parser = require("../index.js");
+var assert = require("assert");
 var should = require("should");
 
 var assertResult = function(expected, actual){
@@ -9,7 +10,7 @@ var assertResult = function(expected, actual){
     actual.quality.should.eql(expected.quality);
 }
 
-describe('accept-language', function(){
+describe('accept-language#parse()', function(){
     it('should correctly parse the language with quality', function(){
         var result = parser.parse('en-GB;q=0.8');
         assertResult({ code: 'en', region: 'GB', quality: 0.8}, result[0]);
@@ -68,5 +69,37 @@ describe('accept-language', function(){
         assertResult({ code: '*', quality: 0.5}, result[2]);
         assertResult({ code: 'en', quality: 0.4}, result[3]);
         assertResult({ code: 'fr', quality: 0.2}, result[4]);
+    });
+});
+
+describe('accept-language#pick()', function(){
+    it('should pick a specific regional language', function(){
+        var result = parser.pick(['en-US', 'fr-CA'], 'fr-CA,fr;q=0.2,en-US;q=0.6,en;q=0.4,*;q=0.5');
+        assert.equal(result, 'fr-CA');
+    });
+
+    it('should pick a specific language', function(){
+        var result = parser.pick(['en', 'fr-CA'], 'ja-JP,ja;1=0.5,en;q=0.2');
+        assert.equal(result, 'en');
+    });
+
+    it('should return null if no matches are found', function(){
+        var result = parser.pick(['ko-KR'], 'fr-CA,fr;q=0.8,en-US;q=0.6,en;q=0.4,*;q=0.1');
+        assert.equal(result, null);
+    });
+
+    it('should return null if support no languages', function(){
+        var result = parser.pick([], 'fr-CA,fr;q=0.8,en-US;q=0.6,en;q=0.4,*;q=0.1');
+        assert.equal(result, null);
+    });
+
+    it('should return null if invalid support', function(){
+        var result = parser.pick(undefined, 'fr-CA,fr;q=0.8,en-US;q=0.6,en;q=0.4,*;q=0.1');
+        assert.equal(result, null);
+    });
+
+    it('should return null if invalid accept-language', function(){
+        var result = parser.pick(['en']);
+        assert.equal(result, null);
     });
 });

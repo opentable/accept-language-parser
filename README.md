@@ -13,14 +13,14 @@ installation:
 npm install accept-language-parser
 ```
 
-usage:
+parse usage:
 
 ```
 var parser = require('accept-language-parser');
 
-var language = parser.parse('en-GB,en;q=0.8');
+var languages = parser.parse('en-GB,en;q=0.8');
 
-console.log(language);
+console.log(languages);
 ```
 
 Output will be:
@@ -41,6 +41,22 @@ Output will be:
 ```
 
 Output is always sorted in quality order from highest -> lowest. as per the http spec, omitting the quality value implies 1.0.
+
+pick usage:
+
+```
+var parser = require('accept-language-parser');
+
+var language = parser.pick(['fr-CA', 'fr-FR', 'fr'], 'en-GB,en-US;q=0.9,fr-CA;q=0.7,en;q=0.8');
+
+console.log(language);
+```
+
+Output will be:
+
+```
+"fr-CA"
+```
 
 __Known issues__
 - Cannot cope with multi-part region codes, i.e. 'az-AZ-Cyrl' will be treated as 'az-AZ'
