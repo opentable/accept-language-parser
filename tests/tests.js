@@ -83,6 +83,11 @@ describe('accept-language#pick()', function(){
         assert.equal(result, 'en');
     });
 
+    it('should pick a language when culture is not specified', function() {
+        var result = parser.pick(['en-us', 'it-IT'], 'pl-PL,en');
+        assert.equal(result, 'en-us');
+    });
+
     it('should return null if no matches are found', function(){
         var result = parser.pick(['ko-KR'], 'fr-CA,fr;q=0.8,en-US;q=0.6,en;q=0.4,*;q=0.1');
         assert.equal(result, null);

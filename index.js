@@ -41,7 +41,7 @@ module.exports.pick = function(supportedLanguages, acceptLanguage){
     for (var i = 0; i < accept.length; i++) {
         var lang = accept[i];
         for (var j = 0; j < supported.length; j++) {
-            if (lang.code === supported[j].code && lang.region === supported[j].region) {
+            if (lang.code === supported[j].code && (!lang.region || lang.region === supported[j].region)) {
                 return supportedLanguages[j];
             }
         }
