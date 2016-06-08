@@ -78,6 +78,11 @@ describe('accept-language#pick()', function(){
         assert.equal(result, 'fr-CA');
     });
 
+    it('should pick proper language regardless of casing', function(){
+        var result = parser.pick(['eN-Us', 'Fr-cA'], 'fR-Ca,fr;q=0.2,en-US;q=0.6,en;q=0.4,*;q=0.5');
+        assert.equal(result.toLowerCase(), 'fr-ca');
+    });
+
     it('should pick a specific language', function(){
         var result = parser.pick(['en', 'fr-CA'], 'ja-JP,ja;1=0.5,en;q=0.2');
         assert.equal(result, 'en');

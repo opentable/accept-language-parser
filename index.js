@@ -40,8 +40,12 @@ module.exports.pick = function(supportedLanguages, acceptLanguage){
 
     for (var i = 0; i < accept.length; i++) {
         var lang = accept[i];
+        var langCode = lang.code.toLowerCase();
+        var langRegion = lang.region ? lang.region.toLowerCase() : lang.region;
         for (var j = 0; j < supported.length; j++) {
-            if (lang.code === supported[j].code && (!lang.region || lang.region === supported[j].region)) {
+            var supportedCode = supported[j].code.toLowerCase();
+            var supportedRegion = supported[j].region ? supported[j].region.toLowerCase() : supported[j].region;
+            if (langCode === supportedCode && (!langRegion || langRegion === supportedRegion)) {
                 return supportedLanguages[j];
             }
         }
