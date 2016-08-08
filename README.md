@@ -58,9 +58,6 @@ Output will be:
 "fr-CA"
 ```
 
-__Known issues__
-- Cannot cope with multi-part region codes, i.e. 'az-AZ-Cyrl' will be treated as 'az-AZ'
-
 __Running tests__
 ```
 npm install
