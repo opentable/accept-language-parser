@@ -33,7 +33,7 @@ module.exports.pick = function(supportedLanguages, acceptLanguage){
 
     var supported = supportedLanguages.map(function(support){
         var bits = support.split('-');
-        hasScript = bits.length === 3;
+        var hasScript = bits.length === 3;
 
         return {
             code: bits[0],
@@ -51,9 +51,9 @@ module.exports.pick = function(supportedLanguages, acceptLanguage){
             var supportedCode = supported[j].code.toLowerCase();
             var supportedScript = supported[j].script ? supported[j].script.toLowerCase() : supported[j].script;
             var supportedRegion = supported[j].region ? supported[j].region.toLowerCase() : supported[j].region;
-            if (langCode === supportedCode
-              && (!langScript || langScript === supportedScript)
-              && (!langRegion || langRegion === supportedRegion)) {
+            if (langCode === supportedCode &&
+              (!langScript || langScript === supportedScript) &&
+              (!langRegion || langRegion === supportedRegion)) {
                 return supportedLanguages[j];
             }
         }
