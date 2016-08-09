@@ -4,6 +4,11 @@ var should = require("should");
 
 var assertResult = function(expected, actual){
     actual.code.should.eql(expected.code);
+
+    if(actual.script || expected.script){
+        actual.script.should.eql(expected.script)
+    }
+
     if(actual.region || expected.region){
         actual.region.should.eql(expected.region)
     }
@@ -70,12 +75,29 @@ describe('accept-language#parse()', function(){
         assertResult({ code: 'en', quality: 0.4}, result[3]);
         assertResult({ code: 'fr', quality: 0.2}, result[4]);
     });
+
+    it('should correctly identify script', function(){
+        var result = parser.parse('zh-Hant-cn');
+        assertResult({ code: 'zh', script: 'Hant', region: 'cn', quality: 1.0}, result[0]);
+    });
+
+    it('should cope with script and a quality value', function(){
+        var result = parser.parse('zh-Hant-cn;q=1, zh-cn;q=0.6, zh;q=0.4');
+        assertResult({ code: 'zh', script: 'Hant', region: 'cn', quality: 1.0}, result[0]);
+        assertResult({ code: 'zh',                 region: 'cn', quality: 0.6}, result[1]);
+        assertResult({ code: 'zh',                               quality: 0.4}, result[2]);
+    });
 });
 
 describe('accept-language#pick()', function(){
     it('should pick a specific regional language', function(){
         var result = parser.pick(['en-US', 'fr-CA'], 'fr-CA,fr;q=0.2,en-US;q=0.6,en;q=0.4,*;q=0.5');
         assert.equal(result, 'fr-CA');
+    });
+
+    it('should pick a specific script (if specified)', function(){
+        var result = parser.pick(['zh-Hant-cn', 'zh-cn'], 'zh-Hant-cn,zh-cn;q=0.6,zh;q=0.4');
+        assert.equal(result, 'zh-Hant-cn');
     });
 
     it('should pick proper language regardless of casing', function(){
