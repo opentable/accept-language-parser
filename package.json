@@ -26,6 +26,6 @@
     "grunt-cli": "^0.1.13",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-mocha-test": "^0.10.0",
-    "should": "^10.0.0"
+    "should": "^11.0.0"
   }
 }
