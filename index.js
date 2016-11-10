@@ -1,4 +1,4 @@
-var regex = /((([a-zA-Z]+(-[a-zA-Z]+){0,2})|\*)(;q=[0-1](\.[0-9]+)?)?)*/g;
+var regex = /((([a-zA-Z]+(-[a-zA-Z0-9]+){0,2})|\*)(;q=[0-1](\.[0-9]+)?)?)*/g;
 
 module.exports.parse = function(al){
     var strings = (al || "").match(regex);

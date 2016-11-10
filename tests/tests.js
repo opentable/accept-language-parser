@@ -49,6 +49,11 @@ describe('accept-language#parse()', function(){
         assertResult({ code: '*', quality: 0.8}, result[1]);
     });
 
+    it('should correctly parse a region with numbers', function(){
+        var result = parser.parse('fr-150');
+        assertResult({ code: 'fr', region: '150', quality: 1.0}, result[0]);
+    });
+
     it('should correctly parse complex set', function(){
         var result = parser.parse('fr-CA,fr;q=0.8,en-US;q=0.6,en;q=0.4,*;q=0.1');
         assertResult({ code: 'fr', region: 'CA', quality: 1.0}, result[0]);
