@@ -1,5 +1,9 @@
 var regex = /((([a-zA-Z]+(-[a-zA-Z0-9]+){0,2})|\*)(;q=[0-1](\.[0-9]+)?)?)*/g;
 
+var isString = function(s){
+    return typeof(s) === 'string';
+};
+
 module.exports.parse = function(al){
     var strings = (al || "").match(regex);
     return strings.map(function(m){
@@ -29,7 +33,9 @@ module.exports.pick = function(supportedLanguages, acceptLanguage){
         return null;
     }
 
-    var accept = this.parse(acceptLanguage);
+    if(isString(acceptLanguage)){
+        acceptLanguage = this.parse(acceptLanguage);
+    }
 
     var supported = supportedLanguages.map(function(support){
         var bits = support.split('-');
@@ -42,8 +48,8 @@ module.exports.pick = function(supportedLanguages, acceptLanguage){
         };
     });
 
-    for (var i = 0; i < accept.length; i++) {
-        var lang = accept[i];
+    for (var i = 0; i < acceptLanguage.length; i++) {
+        var lang = acceptLanguage[i];
         var langCode = lang.code.toLowerCase();
         var langRegion = lang.region ? lang.region.toLowerCase() : lang.region;
         var langScript = lang.script ? lang.script.toLowerCase() : lang.script;

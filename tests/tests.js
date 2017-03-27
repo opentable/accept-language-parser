@@ -100,6 +100,11 @@ describe('accept-language#pick()', function(){
         assert.equal(result, 'fr-CA');
     });
 
+    it('should pick a specific regional language when accept-language is parsed', function(){
+        var result = parser.pick(['en-US', 'fr-CA'], parser.parse('fr-CA,fr;q=0.2,en-US;q=0.6,en;q=0.4,*;q=0.5'));
+        assert.equal(result, 'fr-CA');
+    });
+
     it('should pick a specific script (if specified)', function(){
         var result = parser.pick(['zh-Hant-cn', 'zh-cn'], 'zh-Hant-cn,zh-cn;q=0.6,zh;q=0.4');
         assert.equal(result, 'zh-Hant-cn');

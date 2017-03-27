@@ -5,15 +5,16 @@ accept-language-parser
 
 Parses the accept-language header from an HTTP request and produces an array of language objects sorted by quality.
 
-dependencies: none
 
-installation:
+### Installation:
 
 ```
 npm install accept-language-parser
 ```
 
-parse usage:
+### API
+
+#### parser.parse(acceptLanguageHeader)
 
 ```
 var parser = require('accept-language-parser');
@@ -42,7 +43,9 @@ Output will be:
 
 Output is always sorted in quality order from highest -> lowest. as per the http spec, omitting the quality value implies 1.0.
 
-pick usage:
+#### parser.pick(supportedLangugagesArray, acceptLanguageHeader)
+
+*Alias*: parser.pick(supportedLanguagesArray, parsedAcceptLanguageHeader)
 
 ```
 var parser = require('accept-language-parser');
@@ -61,5 +64,8 @@ Output will be:
 __Running tests__
 ```
 npm install
-grunt test
+npm test
 ```
+
+### License
+MIT
