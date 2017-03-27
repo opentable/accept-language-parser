@@ -6,14 +6,14 @@ var assertResult = function(expected, actual){
     actual.code.should.eql(expected.code);
 
     if(actual.script || expected.script){
-        actual.script.should.eql(expected.script)
+        actual.script.should.eql(expected.script);
     }
 
     if(actual.region || expected.region){
-        actual.region.should.eql(expected.region)
+        actual.region.should.eql(expected.region);
     }
     actual.quality.should.eql(expected.quality);
-}
+};
 
 describe('accept-language#parse()', function(){
     it('should correctly parse the language with quality', function(){
