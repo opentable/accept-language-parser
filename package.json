@@ -23,6 +23,9 @@
     "url": "https://github.com/opentable/accept-language-parser/issues"
   },
   "homepage": "https://github.com/opentable/accept-language-parser",
+  "dependencies": {
+    "semantic-ui": "^0.19.3" 
+  },
   "devDependencies": {
     "jshint": "^2.9.4",
     "mocha": "^3.2.0",
