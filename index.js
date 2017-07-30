@@ -4,7 +4,7 @@ var isString = function(s){
     return typeof(s) === 'string';
 };
 
-module.exports.parse = function(al){
+function parse(al){
     var strings = (al || "").match(regex);
     return strings.map(function(m){
         if(!m){
@@ -28,13 +28,13 @@ module.exports.parse = function(al){
         });
 };
 
-module.exports.pick = function(supportedLanguages, acceptLanguage){
+function pick(supportedLanguages, acceptLanguage){
     if (!supportedLanguages || !supportedLanguages.length || !acceptLanguage) {
         return null;
     }
 
     if(isString(acceptLanguage)){
-        acceptLanguage = this.parse(acceptLanguage);
+        acceptLanguage = parse(acceptLanguage);
     }
 
     var supported = supportedLanguages.map(function(support){
@@ -67,3 +67,6 @@ module.exports.pick = function(supportedLanguages, acceptLanguage){
 
     return null;
 };
+
+module.exports.parse = parse;
+module.exports.pick = pick;
