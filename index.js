@@ -26,7 +26,7 @@ function parse(al){
         }).sort(function(a, b){
             return b.quality - a.quality;
         });
-};
+}
 
 function pick(supportedLanguages, acceptLanguage){
     if (!supportedLanguages || !supportedLanguages.length || !acceptLanguage) {
@@ -66,7 +66,7 @@ function pick(supportedLanguages, acceptLanguage){
     }
 
     return null;
-};
+}
 
 module.exports.parse = parse;
 module.exports.pick = pick;
