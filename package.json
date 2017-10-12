@@ -25,7 +25,7 @@
   "homepage": "https://github.com/opentable/accept-language-parser",
   "devDependencies": {
     "jshint": "^2.9.4",
-    "mocha": "^3.2.0",
+    "mocha": "^3.4.0",
     "should": "^11.0.0"
   }
 }
