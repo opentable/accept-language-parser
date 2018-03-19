@@ -144,4 +144,19 @@ describe('accept-language#pick()', function(){
         var result = parser.pick(['en']);
         assert.equal(result, null);
     });
+
+    it('by default should be strict when selecting language', function(){
+        var result = parser.pick(['en', 'pl'], 'en-US;q=0.6');
+        assert.equal(result, null);
+    });
+
+    it('can select language loosely with an option', function(){
+        var result = parser.pick(['en', 'pl'], 'en-US;q=0.6', { loose: true });
+        assert.equal(result, 'en');
+    });
+
+    it('selects most matching language in loose mode', function(){
+        var result = parser.pick(['en-US', 'en', 'pl'], 'en-US;q=0.6', { loose: true });
+        assert.equal(result, 'en-US');
+    });
 });
