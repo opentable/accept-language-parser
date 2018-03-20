@@ -43,7 +43,7 @@ Output will be:
 
 Output is always sorted in quality order from highest -> lowest. as per the http spec, omitting the quality value implies 1.0.
 
-#### parser.pick(supportedLangugagesArray, acceptLanguageHeader)
+#### parser.pick(supportedLangugagesArray, acceptLanguageHeader, options = {})
 
 *Alias*: parser.pick(supportedLanguagesArray, parsedAcceptLanguageHeader)
 
@@ -61,7 +61,22 @@ Output will be:
 "fr-CA"
 ```
 
-__Running tests__
+The `options` currently supports only `loose` option that allows partial matching on supported languages. For example:
+
+
+```
+parser.pick(['fr', 'en'], 'en-GB,en-US;q=0.9,fr-CA;q=0.7,en;q=0.8');
+```
+
+Would return:
+
+```
+"fr"
+```
+
+In loose mode the order of `supportedLanguagesArray` matters, as it is the first partially matching language that is returned. It means that if you want to pick more specific langauge first, you should list it first as well, for example: `['fr-CA', 'fr']`.
+
+### Running test
 ```
 npm install
 npm test

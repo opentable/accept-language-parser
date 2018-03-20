@@ -28,7 +28,9 @@ function parse(al){
         });
 }
 
-function pick(supportedLanguages, acceptLanguage){
+function pick(supportedLanguages, acceptLanguage, options){
+    options = options || {};
+
     if (!supportedLanguages || !supportedLanguages.length || !acceptLanguage) {
         return null;
     }
@@ -58,8 +60,8 @@ function pick(supportedLanguages, acceptLanguage){
             var supportedScript = supported[j].script ? supported[j].script.toLowerCase() : supported[j].script;
             var supportedRegion = supported[j].region ? supported[j].region.toLowerCase() : supported[j].region;
             if (langCode === supportedCode &&
-              (!langScript || langScript === supportedScript) &&
-              (!langRegion || langRegion === supportedRegion)) {
+              (options.loose || !langScript || langScript === supportedScript) &&
+              (options.loose  || !langRegion || langRegion === supportedRegion)) {
                 return supportedLanguages[j];
             }
         }
