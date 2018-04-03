@@ -65,7 +65,7 @@ The `options` currently supports only `loose` option that allows partial matchin
 
 
 ```
-parser.pick(['fr', 'en'], 'en-GB,en-US;q=0.9,fr-CA;q=0.7,en;q=0.8');
+parser.pick(['fr', 'en'], 'en-GB,en-US;q=0.9,fr-CA;q=0.7,en;q=0.8', { loose: true });
 ```
 
 Would return:
