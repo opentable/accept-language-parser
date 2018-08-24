@@ -4,15 +4,18 @@ var isString = function(s){
     return typeof(s) === 'string';
 };
 
-function parse(al){
+function parse(al, mapLocale){
     var strings = (al || "").match(regex);
+    var mapLocale = mapLocale || function (x) { return x; }
+
     return strings.map(function(m){
         if(!m){
             return;
         }
 
         var bits = m.split(';');
-        var ietf = bits[0].split('-');
+        var ietf = mapLocale(bits[0]);
+        ietf = ietf.split('-');
         var hasScript = ietf.length === 3;
 
         return {
@@ -28,6 +31,32 @@ function parse(al){
         });
 }
 
+// zh-CN = Simplified script with Mandarin grammar = Chinese as written in China
+// zh-TW = Traditional script with Mandarin grammar = Chinese as written in Taiwan
+// zh-HK = Traditional script with Cantonese grammar = Chinese as written in Hong Kong
+
+var newLocales = {
+    // https://docs.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/dd997383(v=vs.100)
+    'zh-cht': 'zh-Hant',
+    'zh-chs': 'zh-Hans',
+
+    'zh-tw': 'zh-Hant-TW',
+    'zh-hk': 'zh-Hant-HK',
+    'zh-mo': 'zh-Hant-MO',
+
+    // https://gist.github.com/amake/0ac7724681ac1c178c6f95a5b09f03ce
+    'zh-sg': 'zh-Hans-SG',
+    'zh-cn': 'zh-Hans-CN'
+};
+
+function mapLocalesDefault(oldLocale) {
+    // some apps use  "_" instead of "-".
+    var newLocale = oldLocale.toLowerCase().replace(/_/g, '-');
+    newLocale = newLocales[newLocale] || newLocale;
+    // console.log(oldLocale, newLocale);
+    return newLocale;
+}
+
 function pick(supportedLanguages, acceptLanguage, options){
     options = options || {};
 
@@ -36,7 +65,7 @@ function pick(supportedLanguages, acceptLanguage, options){
     }
 
     if(isString(acceptLanguage)){
-        acceptLanguage = parse(acceptLanguage);
+        acceptLanguage = parse(acceptLanguage, options.mapLocales || mapLocalesDefault);
     }
 
     var supported = supportedLanguages.map(function(support){
