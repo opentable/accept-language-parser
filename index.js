@@ -6,7 +6,7 @@ var isString = function(s){
 
 function parse(al, mapLocale){
     var strings = (al || "").match(regex);
-    var mapLocale = mapLocale || function (x) { return x; }
+    mapLocale = mapLocale || function (x) { return x; };
 
     return strings.map(function(m){
         if(!m){
