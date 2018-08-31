@@ -159,4 +159,42 @@ describe('accept-language#pick()', function(){
         var result = parser.pick(['en-US', 'en', 'pl'], 'en-US;q=0.6', { loose: true });
         assert.equal(result, 'en-US');
     });
+
+    it('should map zh-CHT => zh-Hant: Traditional Chinese', function(){
+        var result = parser.pick(['zh-Hans', 'zh-Hant-CN', 'zh-Hant'], 'zh-CHT,zh-cn;q=0.6,zh;q=0.4');
+        assert.equal(result, 'zh-Hant');
+    });
+
+    it('should map zh-TW => zh-Hant-TW: Traditional Chinese / Taiwan', function(){
+        var result = parser.pick(['zh-Hans-CN', 'zh-Hans-SG', 'zh-Hans', 'zh-Hant-TW'], 'zh-TW;q=0.6,zh;q=0.4');
+        assert.equal(result, 'zh-Hant-TW');
+    });
+
+    it('should map zh-HK => zh-Hant-HK: Traditional Chinese / Hong Kong', function(){
+        var result = parser.pick(['zh-Hans-CN', 'zh-Hans-SG', 'zh-Hans', 'zh-Hant-HK', 'zh-Hant-TW'],
+             'zh-HK;q=0.6,zh;q=0.4');
+        assert.equal(result, 'zh-Hant-HK');
+    });
+
+    it('should map zh-MO => zh-Hant-MO: Traditional Chinese / Macau', function(){
+        var result = parser.pick(['zh-Hans-CN', 'zh-Hans-SG', 'zh-Hans', 'zh-Hant-TW', 'zh-Hant-MO'],
+        'zh-MO;q=0.8,zh-TW;q=0.6,zh;q=0.4');
+        assert.equal(result, 'zh-Hant-MO');
+    });
+
+    it('should map zh-CHS to zh-Hans: Simplified Chinese', function(){
+        var result = parser.pick(['zh-Hans-CN', 'zh-Hans', 'zh-Hans'], 'zh-CHS,zh-cn;q=0.6,zh;q=0.4');
+        assert.equal(result, 'zh-Hans');
+    });
+
+    it('should map zh-cn => zh-Hans-CN: Simplied Chinese / China', function(){
+        var result = parser.pick(['zh-Hans-CN', 'zh-Hans-SG', 'zh-Hans', 'zh-Hant'], 'zh-cn;q=0.6,zh;q=0.4');
+        assert.equal(result, 'zh-Hans-CN');
+    });
+
+    it('should map zh-sg => zh-Hans-SG: Simplied Chinese / Singapore', function(){
+        var result = parser.pick(['zh-Hans-CN', 'zh-Hans-SG', 'zh-Hans', 'zh-Hant'], 'zh-sg;q=0.6,zh;q=0.4');
+        assert.equal(result, 'zh-Hans-SG');
+    });
+
 });
