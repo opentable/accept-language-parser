@@ -28,17 +28,9 @@ Output will be:
 
 ```
 [
-  {
-    code: "en",
-    region: "GB",
-    quality: 1.0
-  },
-  {
-    code: "en",
-    region: undefined,
-    quality: 0.8
-  }
-];
+  { code: 'en', script: null, region: 'GB', quality: 1 },
+  { code: 'en', script: null, region: undefined, quality: 0.8 }
+]
 ```
 
 Output is always sorted in quality order from highest -> lowest. As per the HTTP spec, omitting the quality value implies 1.0.
@@ -72,7 +64,7 @@ parser.pick(['fr', 'en'], 'en-GB,en-US;q=0.9,fr-CA;q=0.7,en;q=0.8', { loose: tru
 Would return:
 
 ```javascript
-"fr"
+"en"
 ```
 
 In loose mode the order of `supportedLanguagesArray` matters, as it is the first partially matching language that is returned. It means that if you want to pick more specific langauges first, you should list it first as well. 
