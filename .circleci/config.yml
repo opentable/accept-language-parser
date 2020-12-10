@@ -1,44 +1,63 @@
-version: 2
+version: 2.1
 
-defaults: &defaults
-  working_directory: ~/wealthsimple
-  docker:
-    - image: circleci/node:10.12.0
+orbs:
+  micro-app: wealthsimple/micro-app@dev:master
 
 references:
-  attach_code_workspace: &attach_code_workspace
-    attach_workspace:
-      at: ~/wealthsimple
+  parameters: &parameters
+    packages: >-
+      packages/eslint-config
+executors:
+  node:
+    working_directory: /home/circleci/wealthsimple
+    docker:
+      - image: wealthsimple/node:12-ci
 
 jobs:
-  checkout_and_test:
-    <<: *defaults
+  checkout-yarn:
+    executor: node
+    working_directory: /home/circleci/wealthsimple
     steps:
       - checkout
-      - run: yarn install
-      - run: yarn test
+      - restore_cache:
+          key: v1-node-modules-{{ checksum "yarn.lock" }}
+      - micro-app/allow_github_host_key_verification
+      - run:
+          name: Install npm dependencies
+          command: |
+            npm config set _auth "$NEXUS_NPM_DEV_TOKEN"
+            yarn install --no-progress --frozen-lockfile
+      - save_cache:
+          key: v1-node-modules-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
       - persist_to_workspace:
           root: .
           paths: .
 
-  release:
-    <<: *defaults
+  semantic-release:
+    executor: node
     steps:
-      - checkout
-      - *attach_code_workspace
+      - micro-app/attach_code_workspace
+      - micro-app/allow_github_host_key_verification
       - run: |
-          export NPM_TOKEN="${PUBLIC_NPM_TOKEN}"
-          GH_TOKEN="${DEVTOOLS_GITHUB_API_TOKEN}" yarn run semantic-release
+          GITHUB_TOKEN="$DEVTOOLS_GITHUB_API_TOKEN" \
+          NPM_TOKEN="$NEXUS_CIRCLE_CI_TOKEN" \
+          yarn workspaces run semantic-release -e semantic-release-monorepo-config --npm-publish
 workflows:
   version: 2
-  build:
+  commit-workflow:
     jobs:
-      - checkout_and_test:
+      - checkout-yarn:
           context: wealthsimple
-      - release:
+      - micro-app/security:
           context: wealthsimple
+          requires:
+            - checkout-yarn
+      - semantic-release:
+          context: wealthsimple
+          requires:
+            - checkout-yarn
           filters:
             branches:
               only: master
-          requires:
-            - checkout_and_test
