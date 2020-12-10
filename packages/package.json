@@ -7,9 +7,6 @@
     "test": "jest"
   },
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/opentable/accept-language-parser.git"
