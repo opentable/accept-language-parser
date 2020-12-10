@@ -1,11 +1,13 @@
-var regex = /((([a-zA-Z]+(-[a-zA-Z0-9]+){0,2})|\*)(;q=[0-1](\.[0-9]+)?)?)*/g;
+var RE2 = require('re2');
+var regex = /((([a-zA-Z]+(-[a-zA-Z0-9]+){0,2})|\*)(;q=[0-1](\.[0-9]+)?)?)/g;
 
 var isString = function(s){
     return typeof(s) === 'string';
 };
 
 function parse(al){
-    var strings = (al || "").match(regex);
+    var expression = new RE2(regex);
+    var strings = expression.match(al) || [];
     return strings.map(function(m){
         if(!m){
             return;
