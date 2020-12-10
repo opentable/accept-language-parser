@@ -4,9 +4,7 @@
   "description": "Parse the accept-language header from a HTTP request",
   "main": "index.js",
   "scripts": {
-    "mocha": "mocha tests/",
-    "jshint": "jshint index.js tests/",
-    "test": "npm run jshint && npm run mocha"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -24,8 +22,8 @@
   },
   "homepage": "https://github.com/opentable/accept-language-parser",
   "devDependencies": {
-    "jshint": "^2.12.0",
-    "mocha": "^8.2.1",
+    "eslint": "^7.15.0",
+    "jest": "^26.6.3",
     "should": "^13.2.3"
   },
   "dependencies": {
