@@ -1,10 +1,8 @@
-accept-language-parser
-======================
+# accept-language-parser
 
-[![Build Status](https://travis-ci.org/opentable/accept-language-parser.png?branch=master)](https://travis-ci.org/opentable/accept-language-parser) [![NPM version](https://badge.fury.io/js/accept-language-parser.png)](http://badge.fury.io/js/accept-language-parser) ![Dependencies](https://david-dm.org/opentable/accept-language-parser.png)
+[![CircleCI](https://circleci.com/gh/wealthsimple/accept-language-parser.svg?style=svg)](https://circleci.com/gh/wealthsimple/accept-language-parser)
 
 Parses the accept-language header from an HTTP request and produces an array of language objects sorted by quality.
-
 
 ### Installation:
 
@@ -45,12 +43,15 @@ Output is always sorted in quality order from highest -> lowest. As per the HTTP
 
 #### parser.pick(supportedLangugagesArray, acceptLanguageHeader, options = {})
 
-*Alias*: parser.pick(supportedLanguagesArray, parsedAcceptLanguageHeader)
+_Alias_: parser.pick(supportedLanguagesArray, parsedAcceptLanguageHeader)
 
 ```javascript
-var parser = require('accept-language-parser');
+var parser = require("accept-language-parser");
 
-var language = parser.pick(['fr-CA', 'fr-FR', 'fr'], 'en-GB,en-US;q=0.9,fr-CA;q=0.7,en;q=0.8');
+var language = parser.pick(
+  ["fr-CA", "fr-FR", "fr"],
+  "en-GB,en-US;q=0.9,fr-CA;q=0.7,en;q=0.8"
+);
 
 console.log(language);
 ```
@@ -58,28 +59,33 @@ console.log(language);
 Output will be:
 
 ```javascript
-"fr-CA"
+"fr-CA";
+
 ```
 
-The `options` currently supports only the `loose` option which allows partial matching on supported languages. 
+The `options` currently supports only the `loose` option which allows partial matching on supported languages.
 
 For example:
 
 ```javascript
-parser.pick(['fr', 'en'], 'en-GB,en-US;q=0.9,fr-CA;q=0.7,en;q=0.8', { loose: true });
+parser.pick(["fr", "en"], "en-GB,en-US;q=0.9,fr-CA;q=0.7,en;q=0.8", {
+  loose: true,
+});
 ```
 
 Would return:
 
 ```javascript
-"fr"
+"fr";
+
 ```
 
-In loose mode the order of `supportedLanguagesArray` matters, as it is the first partially matching language that is returned. It means that if you want to pick more specific langauges first, you should list it first as well. 
+In loose mode the order of `supportedLanguagesArray` matters, as it is the first partially matching language that is returned. It means that if you want to pick more specific langauges first, you should list it first as well.
 
-For example: 
+For example:
+
 ```javascript
-['fr-CA', 'fr']
+["fr-CA", "fr"];
 ```
 
 ### Running test
@@ -90,4 +96,5 @@ npm test
 ```
 
 ### License
+
 MIT
