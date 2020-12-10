@@ -1,49 +1,44 @@
 version: 2
 
+defaults: &defaults
+  working_directory: ~/wealthsimple
+  docker:
+    - image: circleci/node:10.12.0
+
 references:
-  parameters: &parameters
-    node_version: "12.18.3"
+  attach_code_workspace: &attach_code_workspace
+    attach_workspace:
+      at: ~/wealthsimple
 
-orbs:
-  micro-app: wealthsimple/micro-app@dev:master
+jobs:
+  checkout_and_test:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: yarn install
+      - run: yarn test
+      - persist_to_workspace:
+          root: .
+          paths: .
 
+  release:
+    <<: *defaults
+    steps:
+      - checkout
+      - *attach_code_workspace
+      - run: |
+          export NPM_TOKEN="${PUBLIC_NPM_TOKEN}"
+          GH_TOKEN="${DEVTOOLS_GITHUB_API_TOKEN}" yarn run semantic-release
 workflows:
   version: 2
-  build-and-deploy:
+  build:
     jobs:
-      - micro-app/checkout:
-          <<: *parameters
+      - checkout_and_test:
           context: wealthsimple
-          name: checkout
-          node_version: "12.18.3"
-      - micro-app/security:
-          <<: *parameters
-          name: security
-          context: wealthsimple
-          requires:
-            - checkout
-      - micro-app/test:
-          <<: *parameters
-          name: test
-          context: wealthsimple
-          requires:
-            - checkout
-      - micro-app/static_checks:
-          <<: *parameters
-          context: wealthsimple
-          name: static_checks
-          requires:
-            - checkout
-      - micro-app/semantic_release:
-          <<: *parameters
-          name: semantic_release
-          npm_publish_publicly: true
+      - release:
           context: wealthsimple
           filters:
             branches:
               only: master
           requires:
-            - checkout
-            - static_checks
-            - security
-            - test
+            - checkout_and_test
