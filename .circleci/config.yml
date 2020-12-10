@@ -1,0 +1,49 @@
+version: 2
+
+references:
+  parameters: &parameters
+    node_version: "12.18.3"
+
+orbs:
+  micro-app: wealthsimple/micro-app@dev:master
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - micro-app/checkout:
+          <<: *parameters
+          context: wealthsimple
+          name: checkout
+          node_version: "12.18.3"
+      - micro-app/security:
+          <<: *parameters
+          name: security
+          context: wealthsimple
+          requires:
+            - checkout
+      - micro-app/test:
+          <<: *parameters
+          name: test
+          context: wealthsimple
+          requires:
+            - checkout
+      - micro-app/static_checks:
+          <<: *parameters
+          context: wealthsimple
+          name: static_checks
+          requires:
+            - checkout
+      - micro-app/semantic_release:
+          <<: *parameters
+          name: semantic_release
+          npm_publish_publicly: true
+          context: wealthsimple
+          filters:
+            branches:
+              only: master
+          requires:
+            - checkout
+            - static_checks
+            - security
+            - test
