@@ -155,8 +155,52 @@ describe('accept-language#pick()', function(){
         assert.equal(result, 'en');
     });
 
-    it('selects most matching language in loose mode', function(){
-        var result = parser.pick(['en-US', 'en', 'pl'], 'en-US;q=0.6', { loose: true });
+    it('selects the first matching language in loose mode, even when supported language is more restrictive', function(){
+        var result = parser.pick(['en-US', 'en', 'pl'], 'en;q=0.6', { loose: true });
         assert.equal(result, 'en-US');
+    });
+
+    it('selects the first matching language in loose mode, even when the accepted language is more restrictive', function(){
+        var result = parser.pick(['en', 'en-US', 'pl'], 'en-US;q=0.6', { loose: true });
+        assert.equal(result, 'en');
+    });
+
+    it('quality is more important than order when matching loosely', function(){
+        var result = parser.pick(['en', 'fr'], 'fr-CA,fr;q=0.8,en-US;q=0.6,en;q=0.4,*;q=0.1', { loose: true });
+        var result2 = parser.pick(['fr', 'en'], 'fr-CA,fr;q=0.8,en-US;q=0.6,en;q=0.4,*;q=0.1', { loose: true });
+        assert.equal(result, result2);
+    });
+
+    it('quality is more important than order when matching loosely2', function(){
+        var result = parser.pick(['en', 'fr'], 'fr-CA,en-US;q=0.7,fr;q=0.6,en;q=0.4,*;q=0.1', { loose: true });
+        var result2 = parser.pick(['fr', 'en'], 'fr-CA,en-US;q=0.7,fr;q=0.6,en;q=0.4,*;q=0.1', { loose: true });
+        assert.equal(result, result2);
+    });
+
+    it('quality is more important than order when matching loosely3', function(){
+        var result = parser.pick(['en', 'fr'], 'en-US;q=0.7,fr;q=0.6,en;q=0.4,*;q=0.1', { loose: true });
+        var result2 = parser.pick(['fr', 'en'], 'en-US;q=0.7,fr;q=0.6,en;q=0.4,*;q=0.1', { loose: true });
+        assert.equal(result, result2);
+    });
+
+});
+
+describe('readme examples', function(){
+    it('parser.parse()', function(){
+        var result = parser.parse('en-GB,en;q=0.8');
+        assert.deepStrictEqual(result, [
+            { code: 'en', script: null, region: 'GB', quality: 1 },
+            { code: 'en', script: null, region: undefined, quality: 0.8 }
+        ]);
+    });
+
+    it('parser.pick() strict', function(){
+        var result = parser.pick(['fr-CA', 'fr-FR', 'fr'], 'en-GB,en-US;q=0.9,fr-CA;q=0.7,en;q=0.8');
+        assert.equal(result, 'fr-CA');
+    });
+
+    it('parser.pick() loose', function(){
+        var result = parser.pick(['fr', 'en'], 'en-GB,en-US;q=0.9,fr-CA;q=0.7,en;q=0.8', { loose: true });
+        assert.equal(result, 'en');
     });
 });
